@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>KeySelector demo</title>
+    <script src="KeySelector.js"></script>
+</head>
+<body>
+Test 1: <input id="test1" />
+<br />
+Test 2: <input id="test2" />
+
+
+<script>
+
+var inputs = document.getElementsByTagName('input');
+
+[].slice.call(inputs).forEach(function (input) {
+    input.addEventListener('keydown', function () {
+        KeySelector.keyDown();
+    });
+    input.addEventListener('keypress', function () {
+        KeySelector.keyPress();
+    });
+    input.addEventListener('keyup', function () {
+        KeySelector.keyUp();
+    });
+});
+
+</script>
+</body>
+</html>
