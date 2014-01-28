@@ -6,16 +6,17 @@
     <script src="KeySelector.js"></script>
 </head>
 <body>
-Test 1: <input id="test1" />
+Test 1: <input id="test1" type="text" />
 <br />
-Test 2: <input id="test2" />
+Test 2: <input id="test2" type="text" />
 
 
 <script>
+/*globals KeySelector*/
 
 var inputs = document.getElementsByTagName('input');
 
-[].slice.call(inputs).forEach(function (input) {
+[].slice.call(inputs).forEach(function (input) {'use strict';
     input.addEventListener('keydown', function (e) {
         KeySelector.keyDown(e);
     });

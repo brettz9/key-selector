@@ -1,3 +1,4 @@
+/*jslint regexp: true*/
 var KeySelector = (function () {'use strict';
     var winOn = false;
     function keyDown (e) {
