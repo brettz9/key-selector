@@ -16,14 +16,14 @@ Test 2: <input id="test2" />
 var inputs = document.getElementsByTagName('input');
 
 [].slice.call(inputs).forEach(function (input) {
-    input.addEventListener('keydown', function () {
-        KeySelector.keyDown();
+    input.addEventListener('keydown', function (e) {
+        KeySelector.keyDown(e);
     });
-    input.addEventListener('keypress', function () {
-        KeySelector.keyPress();
+    input.addEventListener('keypress', function (e) {
+        KeySelector.keyPress(e);
     });
-    input.addEventListener('keyup', function () {
-        KeySelector.keyUp();
+    input.addEventListener('keyup', function (e) {
+        KeySelector.keyUp(e);
     });
 });
 

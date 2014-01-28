@@ -50,6 +50,6 @@ var KeySelector = (function () {'use strict';
         },
         keyUp: function (e) {
             keyUp(e);
-        },
+        }
     };
 }());
