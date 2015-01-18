@@ -43,14 +43,8 @@ var KeySelector = (function () {'use strict';
         e.preventDefault();
     }
     return {
-        keyDown: function (e) {
-            keyDown(e);
-        },
-        keyPress: function (e) {
-            keyPress(e);
-        },
-        keyUp: function (e) {
-            keyUp(e);
-        }
+        keyDown: keyDown,
+        keyPress: keyPress,
+        keyUp: keyUp
     };
 }());
