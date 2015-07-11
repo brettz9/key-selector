@@ -1,0 +1,26 @@
+{
+  "name": "key-selector",
+  "version": "1.0.0",
+  "description": "Allow selection of a key sequence in a text box",
+  "main": "KeySelector.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:brettz9/key-selector.git"
+  },
+  "keywords": [
+    "key",
+    "shift",
+    "control",
+    "meta",
+    "alt"
+  ],
+  "author": "Brett Zamir",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/brettz9/key-selector/issues"
+  },
+  "homepage": "https://github.com/brettz9/key-selector"
+}
