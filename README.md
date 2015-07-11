@@ -38,3 +38,7 @@ The `input`'s value will be equal to the commands separated by `+`, such as:
 var KeySelector = require('key-selector');
 KeySelector.addListeners(input);
 ```
+
+# Todos
+
+1. More precisely detect and streamline a format for keys such as "enter"?
