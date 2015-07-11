@@ -1,7 +1,7 @@
 /*jslint regexp: true*/
 var KeySelector = (function () {'use strict';
     var winOn = false;
-    function keyDown (e) {
+    function keydown (e) {
         var target = e.target,
             str = '';
         target.value = '';
@@ -21,12 +21,12 @@ var KeySelector = (function () {'use strict';
             target.value = str;
         }
     }
-    function keyPress (e) {
+    function keypress (e) {
         var target = e.target;
         target.value += (target.value ? '+' : '') + String.fromCharCode(e.charCode);
         e.preventDefault();
     }
-    function keyUp (e) {
+    function keyup (e) {
         if (e.keyCode === 91) { // Win key
             return;
         }
@@ -42,9 +42,23 @@ var KeySelector = (function () {'use strict';
         }
         e.preventDefault();
     }
+    
+    function addListeners (input) {
+        input.addEventListener('keydown', keydown);
+        input.addEventListener('keypress', keypress);
+        input.addEventListener('keyup', keyup);
+    }
+    
     return {
-        keyDown: keyDown,
-        keyPress: keyPress,
-        keyUp: keyUp
+        addListeners: addListeners,
+        // The following are probably not needed
+        keydown: keydown,
+        keypress: keypress,
+        keyup: keyup
     };
 }());
+
+var module;
+if (module === undefined) {
+    module.exports = KeySelector;
+}

@@ -15,18 +15,7 @@ Test 2: <input id="test2" type="text" />
 /*globals KeySelector*/
 
 var inputs = document.querySelectorAll('input');
-
-Array.from(inputs).forEach(function (input) {'use strict';
-    input.addEventListener('keydown', function (e) {
-        KeySelector.keyDown(e);
-    });
-    input.addEventListener('keypress', function (e) {
-        KeySelector.keyPress(e);
-    });
-    input.addEventListener('keyup', function (e) {
-        KeySelector.keyUp(e);
-    });
-});
+Array.from(inputs).forEach(KeySelector.addListeners);
 
 </script>
 </body>
