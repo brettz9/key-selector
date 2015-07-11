@@ -1,6 +1,6 @@
 {
   "name": "key-selector",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Allow selection of a key sequence in a text box",
   "main": "KeySelector.js",
   "scripts": {
