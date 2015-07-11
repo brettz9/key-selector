@@ -1,4 +1,4 @@
-/*jslint regexp: true*/
+/*jslint vars:true, regexp: true*/
 var KeySelector = (function () {'use strict';
     var winOn = false;
     function keydown (e) {
@@ -49,16 +49,18 @@ var KeySelector = (function () {'use strict';
         input.addEventListener('keyup', keyup);
     }
     
-    return {
-        addListeners: addListeners,
-        // The following are probably not needed
-        keydown: keydown,
-        keypress: keypress,
-        keyup: keyup
-    };
+    var exp;
+    if (typeof exports === 'undefined') {
+        window.KeySelector = {};
+        exp = window.KeySelector;
+    }
+    else {
+        exp = exports;
+    }
+    exp.addListeners = addListeners;
+    // The following are probably not needed
+    exp.keydown = keydown;
+    exp.keypress = keypress;
+    exp.keyup = keyup;
+    return exp;
 }());
-
-var module;
-if (module === undefined) {
-    module.exports = KeySelector;
-}

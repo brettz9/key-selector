@@ -32,7 +32,7 @@ The `input`'s value will be equal to the commands separated by `+`, such as:
 - shift-alt-V
 - shift-ctrl-alt-V
 
-## Other Node.js-like environments (such as Mozilla's Add-on SDK):
+## Other Common.js environments:
 
 ```js
 var KeySelector = require('key-selector');
