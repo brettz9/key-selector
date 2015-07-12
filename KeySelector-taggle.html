@@ -25,17 +25,24 @@ Test 3 (Taggle): <div id="test3"></div>
 <script>
 /*globals KeySelector*/
 
-var taggle = new Taggle('test3');
-taggle.add(['a', 'b', 'cde']);
-
-var inputs = document.querySelectorAll('input');
+var inputs = document.querySelectorAll('input.plain');
 Array.from(inputs).forEach(function (input) {
-    KeySelector.addListeners(input, function (e, type, newVal, oldVal) {
-        console.log(type + '=' + (type === 'keypress' ? oldVal + newVal : newVal) + '::' + this.value);
-    });
+    KeySelector.addListeners(input);
 });
 
 
+var input = document.querySelector('#test3');
+var taggle = new Taggle('test3');
+KeySelector.addListeners(input, function (e, type, newVal, oldVal) {
+    // console.log(type + '=' + (type === 'keypress' ? oldVal + newVal : newVal) + '::' + this.value);
+    if (type === 'keypress') {
+        taggle.removeAll();
+        this.value.split('+').forEach(function (key) {
+            
+            taggle.add(key);
+        });
+    }
+});
 
 </script>
 </body>
