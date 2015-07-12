@@ -9,8 +9,14 @@
     <script src="node_modules/taggle/dist/taggle.min.js"></script>
     <script src="KeySelector.js"></script>
     <style>
-    input:not(.plain) {
-        visibility: hidden1;
+
+    /*Block cursor*/
+    input[type="text"]:not(.plain) {
+        color : transparent;
+        text-shadow : 0 0 0 #000;
+    }
+    input[type="text"]:not(.plain):focus{
+        outline : none;
     }
     </style>
 </head>
@@ -25,6 +31,8 @@ Test 3 (Taggle): <div id="test3"></div>
 <script>
 /*globals KeySelector*/
 
+// Todo: Add area for clicking to listen, but avoid keeping an input area separate from tags
+
 var inputs = document.querySelectorAll('input.plain');
 Array.from(inputs).forEach(function (input) {
     KeySelector.addListeners(input);
@@ -32,13 +40,39 @@ Array.from(inputs).forEach(function (input) {
 
 
 var input = document.querySelector('#test3');
-var taggle = new Taggle('test3');
+var removing = false, prevent = true;
+var taggle = new Taggle('test3', {
+    onTagRemove: function (e, removed) {
+        var tags = taggle.getTagValues();
+        if (tags.length < 3) {
+            // Add back tags (since we want a minimum of two and so that when two, there is no close button)
+            var values = tags.slice(0);
+
+            removing = true;
+            taggle.removeAll();
+            removing = false;
+            
+            prevent = values.length < 3;
+            values.forEach(function (key) {
+                taggle.add(key);
+            });
+        }
+    },
+    preventCloseLink: function (tagName) {
+        // return tagName.length > 1; // Won't work if we start allowing "enter" as a key
+        return prevent || ['ctrl', 'alt', 'win', 'shift'].indexOf(tagName) === -1;
+    }
+});
 KeySelector.addListeners(input, function (e, type, newVal, oldVal) {
     // console.log(type + '=' + (type === 'keypress' ? oldVal + newVal : newVal) + '::' + this.value);
     if (type === 'keypress') {
+        var values = this.value.split('+');
+        if (values.length < 2) {
+            return;
+        }
         taggle.removeAll();
-        this.value.split('+').forEach(function (key) {
-            
+        prevent = values.length < 3;
+        values.forEach(function (key) {
             taggle.add(key);
         });
     }
