@@ -1,18 +1,25 @@
 /*jslint vars:true, regexp: true*/
-var KeySelector = (function () {'use strict';
+var exports;
+(function () {'use strict';
     var winOn = false;
-    // Todo: Change to instantiable class, and conditionally add to a value property rather than the element target
-    // Todo: Add cb logic for keyup too
-    // Todo: Allow different callbacks to addListeners?
     // Todo: Cause tags for regular keys to avoid "close" button, but allow for ctrl, alt, etc., as long as the close event is reported back to record the change
-    function keydown (e, cb) {
-        var target = e.target,
+    function KeySelector () {
+        if (!(this instanceof KeySelector)) {
+            return new KeySelector();
+        }
+    }
+    KeySelector.prototype.keydown = function keydown (e, cb) {
+        if (cb) {
+            cb = cb.bind(this);
+        }
+        var target = cb ? this : e.target,
             str = '',
             currVal = '';
+
+        target.value = currVal;
         if (cb) {
             cb(currVal);
         }
-        target.value = currVal;
 
         if (e.shiftKey)  {
             str += 'shift';
@@ -25,59 +32,82 @@ var KeySelector = (function () {'use strict';
         }
         if (e.keyCode === 91) { // Win key
             winOn = (str ? (str + '+') : '') + 'win';
+            return;
         }
-        else if (cb) {
+        if (cb) {
+            target.value = str;
             cb(str);
         }
         else {
             target.value = str;
         }
-    }
-    function keypress (e, cb) {
-        var target = e.target;
+    };
+    KeySelector.prototype.keypress = function keypress (e, cb) {
         if (cb) {
-            cb((target.value ? '+' : '') + String.fromCharCode(e.charCode), target.value);
+            cb = cb.bind(this);
         }
-        else {
-            target.value += (target.value ? '+' : '') + String.fromCharCode(e.charCode);
+        var target = cb ? this : e.target;
+        var oldVal = target.value;
+        var currVal = (target.value ? '+' : '') + String.fromCharCode(e.charCode);
+        target.value += currVal;
+        if (cb) {
+            cb(currVal, oldVal);
         }
         e.preventDefault();
-    }
-    function keyup (e, cb) {
+    };
+    KeySelector.prototype.keyup = function keyup (e, cb) {
+        if (cb) {
+            cb = cb.bind(this);
+        }
         if (e.keyCode === 91) { // Win key
             return;
         }
-        var target = e.target;
+        var target = cb ? this : e.target;
+        var currVal;
         if (winOn) {
-            target.value = winOn +
+            currVal = winOn +
                 ([16, 17, 18].indexOf(e.keyCode) === -1 ? '+' : '') + // If this is just another special key, don't add a "+"
                     String.fromCharCode(e.keyCode);
+            target.value = currVal;
+            if (cb) {
+                cb(currVal);
+            }
             winOn = false;
         }
         if (!target.value.match(/\+.$/)) { // Use this block to disallow just special keys or normal keys alone
-            target.value = '';
+            currVal = '';
+            target.value = currVal;
+            if (cb) {
+                cb(currVal);
+            }
         }
         e.preventDefault();
-    }
+    };
     
-    function addListeners (input, cb) {
-        input.addEventListener('keydown', keydown.bind(null, cb));
-        input.addEventListener('keypress', keypress.bind(null, cb));
-        input.addEventListener('keyup', keyup.bind(null, cb));
-    }
-    
-    var exp;
-    if (typeof exports === 'undefined') {
-        window.KeySelector = {};
-        exp = window.KeySelector;
-    }
-    else {
-        exp = exports;
-    }
-    exp.addListeners = addListeners;
-    // The following are probably not needed
-    exp.keydown = keydown;
-    exp.keypress = keypress;
-    exp.keyup = keyup;
-    return exp;
+    KeySelector.prototype.addListeners = function addListeners (input, cb) {
+        var that = this;
+        if (typeof cb === 'function') {
+            cb = {
+                keydown: cb,
+                keypress: cb,
+                keyup: cb
+            };
+        }
+        input.addEventListener('keydown', function (e) {
+            that.keydown(e, cb ? cb.keydown.bind(that) : undefined);
+        });
+        input.addEventListener('keypress', function (e) {
+            that.keypress(e, cb ? cb.keypress.bind(that) : undefined);
+        });
+        input.addEventListener('keyup', function (e) {
+            that.keyup(e, cb ? cb.keyup.bind(that) : undefined);
+        });
+    };
+    KeySelector.addListeners = function addListeners (input, cb) {
+        var ks = new KeySelector();
+        return ks.addListeners(input, cb);
+    };
+
+    var exp = exports === undefined ? window : exports;
+    exp.KeySelector = KeySelector;
 }());
