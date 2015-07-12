@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title>KeySelector demo</title>
+    <link rel="stylesheet" type="text/css" href="node_modules/taggle/assets/css/twilight.css" />
+    <link rel="stylesheet" type="text/css" href="node_modules/taggle/assets/css/projects.min.css" />
+    <link rel="stylesheet" type="text/css" href="node_modules/taggle/assets/css/taggle.min.css" />
+    <script src="node_modules/taggle/dist/taggle.min.js"></script>
+    <script src="KeySelector.js"></script>
+    <style>
+    input:not(.plain) {
+        visibility: hidden1;
+    }
+    </style>
+</head>
+<body>
+Test 1: <input id="test1" class="plain" type="text" />
+<br />
+Test 2: <input id="test2" class="plain" type="text" />
+<br />
+Test 3 (Taggle): <div id="test3"></div>
+
+
+<script>
+/*globals KeySelector*/
+
+var taggle = new Taggle('test3');
+taggle.add(['a', 'b', 'cde']);
+
+var inputs = document.querySelectorAll('input');
+Array.from(inputs).forEach(KeySelector.addListeners);
+
+
+
+</script>
+</body>
+</html>

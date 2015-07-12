@@ -17,6 +17,9 @@
     "meta",
     "alt"
   ],
+  "dependencies": {
+      "taggle": "1.x"
+  },
   "author": "Brett Zamir",
   "license": "MIT",
   "bugs": {

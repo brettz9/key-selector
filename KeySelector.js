@@ -1,10 +1,19 @@
 /*jslint vars:true, regexp: true*/
 var KeySelector = (function () {'use strict';
     var winOn = false;
-    function keydown (e) {
+    // Todo: Change to instantiable class, and conditionally add to a value property rather than the element target
+    // Todo: Add cb logic for keyup too
+    // Todo: Allow different callbacks to addListeners?
+    // Todo: Cause tags for regular keys to avoid "close" button, but allow for ctrl, alt, etc., as long as the close event is reported back to record the change
+    function keydown (e, cb) {
         var target = e.target,
-            str = '';
-        target.value = '';
+            str = '',
+            currVal = '';
+        if (cb) {
+            cb(currVal);
+        }
+        target.value = currVal;
+
         if (e.shiftKey)  {
             str += 'shift';
         }
@@ -17,16 +26,24 @@ var KeySelector = (function () {'use strict';
         if (e.keyCode === 91) { // Win key
             winOn = (str ? (str + '+') : '') + 'win';
         }
+        else if (cb) {
+            cb(str);
+        }
         else {
             target.value = str;
         }
     }
-    function keypress (e) {
+    function keypress (e, cb) {
         var target = e.target;
-        target.value += (target.value ? '+' : '') + String.fromCharCode(e.charCode);
+        if (cb) {
+            cb((target.value ? '+' : '') + String.fromCharCode(e.charCode), target.value);
+        }
+        else {
+            target.value += (target.value ? '+' : '') + String.fromCharCode(e.charCode);
+        }
         e.preventDefault();
     }
-    function keyup (e) {
+    function keyup (e, cb) {
         if (e.keyCode === 91) { // Win key
             return;
         }
@@ -43,10 +60,10 @@ var KeySelector = (function () {'use strict';
         e.preventDefault();
     }
     
-    function addListeners (input) {
-        input.addEventListener('keydown', keydown);
-        input.addEventListener('keypress', keypress);
-        input.addEventListener('keyup', keyup);
+    function addListeners (input, cb) {
+        input.addEventListener('keydown', keydown.bind(null, cb));
+        input.addEventListener('keypress', keypress.bind(null, cb));
+        input.addEventListener('keyup', keyup.bind(null, cb));
     }
     
     var exp;
