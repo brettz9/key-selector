@@ -41,6 +41,7 @@ var exports;
         else {
             target.value = str;
         }
+        // e.preventDefault(); // Todo: Couldn't we avoid the flickering somehow by using this and refactoring?
     };
     KeySelector.prototype.keypress = function keypress (e, cb) {
         if (cb) {
