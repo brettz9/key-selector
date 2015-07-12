@@ -30,7 +30,9 @@ taggle.add(['a', 'b', 'cde']);
 
 var inputs = document.querySelectorAll('input');
 Array.from(inputs).forEach(function (input) {
-    KeySelector.addListeners(input);
+    KeySelector.addListeners(input, function (e, type, newVal, oldVal) {
+        console.log(type + '=' + (type === 'keypress' ? oldVal + newVal : newVal) + '::' + this.value);
+    });
 });
 
 

@@ -10,7 +10,7 @@ var exports;
     }
     KeySelector.prototype.keydown = function keydown (e, cb) {
         if (cb) {
-            cb = cb.bind(this);
+            cb = cb.bind(this, e, 'keydown');
         }
         var target = cb ? this : e.target,
             str = '',
@@ -44,7 +44,7 @@ var exports;
     };
     KeySelector.prototype.keypress = function keypress (e, cb) {
         if (cb) {
-            cb = cb.bind(this);
+            cb = cb.bind(this, e, 'keypress');
         }
         var target = cb ? this : e.target;
         var oldVal = target.value;
@@ -57,7 +57,7 @@ var exports;
     };
     KeySelector.prototype.keyup = function keyup (e, cb) {
         if (cb) {
-            cb = cb.bind(this);
+            cb = cb.bind(this, e, 'keyup');
         }
         if (e.keyCode === 91) { // Win key
             return;
