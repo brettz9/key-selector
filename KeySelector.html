@@ -18,7 +18,7 @@ Test 2: <input id="test2" type="text" />
 /*globals KeySelector*/
 
 var inputs = document.querySelectorAll('input');
-Array.from(inputs).from(inputs).forEach(function (input) {
+Array.from(inputs).forEach(function (input) {
     KeySelector.addListeners(input);
 });
 
