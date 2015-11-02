@@ -21,6 +21,7 @@
       "taggle": "1.x"
   },
   "author": "Brett Zamir",
+  "contributors": [],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/brettz9/key-selector/issues"
