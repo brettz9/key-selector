@@ -1,5 +1,7 @@
 # KeySelector
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/brettz9/key-selector.svg)](https://greenkeeper.io/)
+
 Displays a sequence of combined key commands (`ctrl`, `shift`, `alt`, or
 `win` and regular keys) for the potential use as a hot-key selector.
 
